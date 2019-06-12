@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'admin'
+        'name', 'email', 'password', 'admin', 'role'
     ];
 
     /**
@@ -34,6 +34,14 @@ class User extends Authenticatable
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function project()
+    {
+        return $this->belongsToMany(Project::class);
     }
 
     /**

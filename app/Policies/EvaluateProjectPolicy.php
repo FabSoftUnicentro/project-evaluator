@@ -23,6 +23,6 @@ class EvaluateProjectPolicy
             ['project_id', '=', $project->getKey()]
         ])->count();
 
-        return $evaluation === 0;
+        return $evaluation === 0 && is_null($project->members()->find($user->getKey()));
     }
 }

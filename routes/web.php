@@ -16,13 +16,19 @@ Auth::routes([
     'verify' => false
 ]);
 
-Route::get('/preview-notifications', function () {
-    return (new \App\Notifications\ResetPasswordNotification('teste'))->toMail('teste')->render();
-});
-
 Route::group(['middleware' => 'auth' ], function () {
     Route::namespace('Admin')->prefix('admin')->middleware('can:administer')->group(function () {
-        Route::get('/', 'ProjectController@index')->name('admin.projects.index');
+        Route::get('/', 'ProjectRankingController@index')->name('admin.projects.ranking.index');
+
+        Route::get('/projects', 'ProjectController@index')->name('admin.projects.index');
+        Route::get('/projects/{project}/create', 'ProjectController@create')->name('admin.projects.create');
+        Route::post('/projects', 'ProjectController@store')->name('admin.projects.store');
+
+        Route::get('/projects/{project}/edit', 'ProjectController@edit')->name('admin.projects.edit');
+        Route::put('/projects/{project}', 'ProjectController@update')->name('admin.projects.update');
+
+        Route::get('/projects/{project}', 'ProjectController@show')->name('admin.projects.show');
+        Route::delete('/projects/{project}', 'ProjectController@destroy')->name('admin.projects.destroy');
     });
 
     Route::get('/', 'ProjectController@index')->name('home');

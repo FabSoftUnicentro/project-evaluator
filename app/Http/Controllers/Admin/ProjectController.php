@@ -13,17 +13,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderedByEvaluationAverage();
+        $projects = Project::with('members')->get();
 
-        return view('admin.home', [
+        return view('admin.projects.index', [
             'projects' => $projects
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -31,58 +29,104 @@ class ProjectController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'members' => 'array|distinct|nullable'
+        ]);
+
+        try {
+            $project = new Project($request->only(['name']));
+
+            $project->save();
+
+            $members = $request->only(['members']);
+
+            if ($members) {
+                foreach ($members as $member) {
+                    $project->members()->attach($member);
+                }
+            }
+
+            $project->save();
+
+            return response()->json($project->toArray());
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Project $project
      */
-    public function show($id)
+    public function show(Project $project)
+    {
+
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function edit(Project $project)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function edit($id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'members' => 'array|distinct|nullable'
+        ]);
+
+        try {
+            $project->update($request->only(['name']));
+
+            $members = $request->only(['members']);
+
+            if ($members) {
+                foreach ($members as $member) {
+                    $project->members()->attach($member);
+                }
+            }
+
+            $project->save();
+
+            return response()->json($project->toArray());
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function destroy(Project $project)
     {
-        //
-    }
+        try {
+            $project->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            return response()->json($project->toArray());
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

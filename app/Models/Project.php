@@ -28,7 +28,15 @@ class Project extends Model
      */
     public function evaluations()
     {
-        return $this->hasMany(Evaluation::class);
+        return $this->hasMany(Evaluation::class)->with('user');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members()
+    {
+        return $this->belongsToMany(User::class);
     }
 
     /**
@@ -45,6 +53,18 @@ class Project extends Model
 
     /**
      * @param Builder $query
+     * @param User $member
+     * @return Builder
+     */
+    public function scopeDoesntHaveMember(Builder $query, User $member)
+    {
+        return $query->whereDoesntHave('members', function (Builder $query) use ($member) {
+            $query->where('id', '=', $member->getKey());
+        });
+    }
+
+    /**
+     * @param Builder $query
      * @return Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function scopeOrderedByEvaluationAverage(Builder $query)
@@ -54,8 +74,74 @@ class Project extends Model
             ->sortByDesc('evaluationAverage');
     }
 
+    /**
+     * @return float
+     */
     public function getEvaluationAverageAttribute()
     {
-        return $this->evaluations->avg('value');
+        $weightSum = 0;
+        $evaluationSum = 0;
+        $evaluations = $this->evaluations;
+
+        /** @var Evaluation $evaluation */
+        foreach ($evaluations as $evaluation) {
+            if ($evaluation->user->role === 'student') {
+                $evaluationSum += $evaluation->value;
+                $weightSum++;
+            } else {
+                $evaluationSum += 2 * $evaluation->value;
+                $weightSum += 2;
+            }
+        }
+
+        if ($weightSum === 0) {
+            $weightSum = 1;
+        }
+
+        return round($evaluationSum / $weightSum, 2);
+    }
+
+    /**
+     * @return int
+     */
+    public function getStudentEvaluationAverageAttribute()
+    {
+        $studentEvaluations = $this->evaluations->where('user.role', '=', 'student');
+
+        return $studentEvaluations->avg('value', 2) ?? 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTeacherEvaluationAverageAttribute()
+    {
+        $teacherEvaluations = $this->evaluations->where('user.role', '=', 'teacher');
+
+        return $teacherEvaluations->avg('value') ?? 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvaluationCountAttribute()
+    {
+        return $this->evaluations->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStudentEvaluationCountAttribute()
+    {
+        return $this->evaluations->where('user.role', '=', 'student')->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeacherEvaluationCountAttribute()
+    {
+        return $this->evaluations->where('user.role', '=', 'teacher')->count();
     }
 }

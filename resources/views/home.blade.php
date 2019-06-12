@@ -8,25 +8,24 @@
             <div class="card">
                 <div class="card-header">Projetos a Serem Avaliados</div>
                 <div class="card-body">
-                    @if (count($projectsNotEvaluated) > 0)
+                    @if (count($projects) > 0)
                         <table class="table table-responsive" style="display: table">
                             <thead>
                                 <tr>
                                     <th>Projeto</th>
-                                    <th>Nota</th>
-                                    <th>Comentário</th>
+                                    <th class="text-center">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($projectsNotEvaluated as $projectNotEvaluated)
+                            @foreach ($projects as $project)
                                 <tr>
                                     <td style="width: 70%">
-                                        {{ $projectNotEvaluated->name }}
+                                        {{ $project->name }}
                                     </td>
                                     <td style="width: 30%">
                                         <a
                                             class="btn btn-info btn-block"
-                                            href="{{ route('evaluations.create', $projectNotEvaluated->getKey()) }}"
+                                            href="{{ route('evaluations.create', $project->getKey()) }}"
                                         >
                                             Avaliar
                                         </a>

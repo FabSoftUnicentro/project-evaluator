@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             @include('helpers.flash-message')
             <div class="card">
                 <div class="card-header">Projetos Ordenados pela Média das Avaliações</div>
@@ -13,6 +13,11 @@
                             <tr>
                                 <th>Projeto</th>
                                 <th>Nota Média</th>
+                                <th>Nota Média (Alunos)</th>
+                                <th>Nota Média (Professores)</th>
+                                <th>Número de Avaliações</th>
+                                <th>Número de Avaliações (Alunos)</th>
+                                <th>Número de Avaliações (Professores)</th>
                                 <th>Ação</th>
                             </tr>
                         </thead>
@@ -24,6 +29,21 @@
                                 </td>
                                 <td style="width: 40%">
                                     {{ $project->evaluationAverage }}
+                                </td>
+                                <td style="width: 40%">
+                                    {{ $project->studentEvaluationAverage }}
+                                </td>
+                                <td style="width: 40%">
+                                    {{ $project->teacherEvaluationAverage }}
+                                </td>
+                                <td style="width: 40%">
+                                    {{ $project->evaluationCount }}
+                                </td>
+                                <td style="width: 40%">
+                                    {{ $project->studentEvaluationCount }}
+                                </td>
+                                <td style="width: 40%">
+                                    {{ $project->teacherEvaluationCount }}
                                 </td>
                                 <td style="width: 20%">
                                     <a
