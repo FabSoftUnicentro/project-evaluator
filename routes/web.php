@@ -12,7 +12,6 @@
 */
 
 Auth::routes([
-    'register' => false,
     'verify' => false
 ]);
 
