@@ -8,7 +8,7 @@
             <div class="alert alert-warning">
                 <p>Atenção:</p>
                 <ul>
-                    <li>As Avaliações concedidas por alunos terão peso 1.</li>
+                    <li>As Avaliações concedidas por alunos/outros usuários terão peso 1.</li>
                     <li>As Avaliações concedidas por professores terão peso 2.</li>
                     <li>Somente avalie os projetos dos quais esteve presente na apresentação.</li>
                     <li>Somente os usuários administradores (todos os professores) conseguem acessar o ranking dos projetos avaliados.</li>
