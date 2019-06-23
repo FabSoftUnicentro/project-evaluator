@@ -6,7 +6,13 @@
             <div class="col-md-8">
                 @include('helpers.flash-message')
                 <div class="card">
-                    <div class="card-header">Avaliando Projeto: {{ $project->name }}</div>
+                    <div class="card-header">
+                        <p>Avaliando Projeto: {{ $project->name }}</p>
+                        <p>Integrantes: </p>
+                        @foreach ($project->members as $member)
+                            <p>{{ $member->name }}</p>
+                        @endforeach
+                    </div>
                     <div class="card-body">
                         <form action="{{ route('evaluations.store', $project->id) }}" method="post">
                             @csrf

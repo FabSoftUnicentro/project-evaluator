@@ -47,7 +47,6 @@ class CreateUsers extends Command
 
         $this->info('Creating users...');
         while ($csvLine = fgetcsv($handle, 1000, ",")) {
-            $csvLine = array_map("utf8_encode", $csvLine);
             if ($header) {
                 $header = false;
             } else {
