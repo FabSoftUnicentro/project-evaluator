@@ -12,11 +12,11 @@
                         <thead>
                             <tr>
                                 <th>Projeto</th>
-                                <th>Nota Média</th>
-                                <th>Nota Média (Alunos)</th>
+                                <th>Nota Média (Ponderada)</th>
+                                <th>Nota Média (Alunos/Outros)</th>
                                 <th>Nota Média (Professores)</th>
-                                <th>Número de Avaliações</th>
-                                <th>Número de Avaliações (Alunos)</th>
+                                <th>Número de Avaliações (Total)</th>
+                                <th>Número de Avaliações (Alunos/Outros)</th>
                                 <th>Número de Avaliações (Professores)</th>
                                 <th>Ação</th>
                             </tr>
