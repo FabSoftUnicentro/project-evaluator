@@ -6,7 +6,13 @@
         <div class="col-md-8">
             @include('helpers.flash-message')
             <div class="card">
-            <div class="card-header">Avaliações do Projeto: {{ $project->name }}</div>
+                <div class="card-header">
+                    <p>Avaliações do Projeto: {{ $project->name }}</p>
+                    <p>Integrantes: </p>
+                    @foreach ($project->members as $member)
+                        <p>{{ $member->name }}</p>
+                    @endforeach
+                </div>
                 <div class="card-body">
                     @if (count($evaluations) > 0)
                         <table class="table table-responsive text-center" style="display: table">
@@ -36,7 +42,7 @@
                     @else
                         <p>Este projeto ainda não tem nenhuma avaliação!</p>
                     @endif
-                </div>
+               </div>
             </div>
         </div>
     </div>
