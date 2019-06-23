@@ -17,7 +17,7 @@
                 <ol>
                     <li>Nota Média Ponderada Geral.</li>
                     <li>Nota Média dos Professores (1º Critério de desempate).</li>
-                    <li>Nota Média dos Alunos (2º Critério de desempate).</li>
+                    <li>Nota Média dos Alunos/Outros Usuários (2º Critério de desempate).</li>
                 </ol>
             </div>
             <div class="card">
