@@ -47,6 +47,7 @@ class CreateUsers extends Command
 
         $this->info('Creating users...');
         while ($csvLine = fgetcsv($handle, 1000, ",")) {
+            $csvLine = array_map("utf8_encode", $csvLine);
             if ($header) {
                 $header = false;
             } else {
@@ -64,7 +65,7 @@ class CreateUsers extends Command
 
                 Mail::to($user)->send(new UserCreated($user, $generatedPassword));
 
-                $this->info("User: $name, email: $email created!");
+                $this->info("User: $user->name, email: $user->email created!");
             }
         }
         $this->info('Users created');

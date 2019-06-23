@@ -48,7 +48,7 @@
                                 <td style="width: 20%">
                                     <a
                                         class="btn btn-info btn-block"
-                                        href=""
+                                        href="{{ route('admin.projects.evaluations.index', $project->getKey()) }}"
                                     >
                                         Ver Avaliações
                                     </a>

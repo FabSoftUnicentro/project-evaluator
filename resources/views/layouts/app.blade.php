@@ -59,9 +59,14 @@
                                     <a class="dropdown-item" href="{{ route('passwords.edit') }}">
                                         Alterar Minha Senha
                                     </a>
+                                    @if (Auth::user()->isAdmin())
+                                        <a class="dropdown-item" href="{{ route('admin.projects.ranking.index') }}">
+                                            Ranking
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                            document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

@@ -71,7 +71,17 @@ class Project extends Model
     {
         return $query->with('evaluations')
             ->get()
-            ->sortByDesc('evaluationAverage');
+            ->sort(function (Project $a, Project $b) {
+                if ($a->evaluationAverage === $b->evaluationAverage) {
+                    if ($a->teacherEvaluationAverage === $b->teacherEvaluationAverage) {
+                        return $a->studentEvaluationAverage > $b->studentEvaluationAverage ? -1 : 1;
+                    }
+
+                    return $a->teacherEvaluationAverage > $b->teacherEvaluationAverage ? -1 : 1;
+                }
+
+                return $a->evaluationAverage > $b->evaluationAverage ? -1 : 1;
+            });
     }
 
     /**

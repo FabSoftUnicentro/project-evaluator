@@ -14,11 +14,12 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $projects = Project::notEvaluatedBy($request->user())
+            ->with('members')
             ->doesntHaveMember($request->user())
             ->get();
 
         return view('home', [
-            'projects'=> $projects
+            'projects' => $projects
         ]);
     }
 }

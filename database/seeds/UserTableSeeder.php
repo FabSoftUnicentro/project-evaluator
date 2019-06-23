@@ -26,5 +26,12 @@ class UserTableSeeder extends Seeder
             'password' => Hash::make("professor"),
             'role' => 'teacher'
         ]);
+        User::create([
+            'name' => 'Aluno Exemplo',
+            'email' => 'aluno@hotmail.com',
+            'admin' => false,
+            'password' => Hash::make("aluno"),
+            'role' => 'student'
+        ]);
     }
 }

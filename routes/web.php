@@ -16,9 +16,10 @@ Auth::routes([
     'verify' => false
 ]);
 
-Route::group(['middleware' => 'auth' ], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::namespace('Admin')->prefix('admin')->middleware('can:administer')->group(function () {
         Route::get('/', 'ProjectRankingController@index')->name('admin.projects.ranking.index');
+        Route::get('/projects/{project}/evaluations', 'ProjectEvaluationsController@index')->name('admin.projects.evaluations.index');
 
         Route::get('/projects', 'ProjectController@index')->name('admin.projects.index');
         Route::get('/projects/{project}/create', 'ProjectController@create')->name('admin.projects.create');
