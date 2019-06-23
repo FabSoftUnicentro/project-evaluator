@@ -62,9 +62,12 @@ class CreateUsers extends Command
                     'password' => Hash::make($generatedPassword)
                 ]);
 
-                Mail::to($user)->send(new UserCreated($user, $generatedPassword));
-
-                $this->info("User: $user->name, email: $user->email created!");
+                try {
+                    Mail::to($user)->send(new UserCreated($user, $generatedPassword));
+                    $this->info("User: $user->name, email: $user->email created!");
+                } catch (\Exception $e) {
+                    $this->info("Failed sending email to User: $user->name, email: $user->email created!, password: $generatedPassword");
+                }
             }
         }
         $this->info('Users created');
