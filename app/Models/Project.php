@@ -99,8 +99,8 @@ class Project extends Model
                 $evaluationSum += $evaluation->value;
                 $weightSum++;
             } else {
-                $evaluationSum += 2 * $evaluation->value;
-                $weightSum += 2;
+                $evaluationSum += 3 * $evaluation->value;
+                $weightSum += 3;
             }
         }
 
